@@ -9,6 +9,7 @@ const ProductGallery = () => {
         useProducts();
 
     const products = data ? data.pages.flatMap((item) => item.products) : [];
+    // const products = data ? data.pages[data.pages.length - 1].products : [];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,7 +44,7 @@ const ProductGallery = () => {
                     </div>
                 ))}
             </div>
-            {isFetchingNextPage && <Loader label="Load More" spinner={false} />}
+            {isFetchingNextPage && <Loader label="Loading More" spinner={false} />}
         </div>
     );
 };

@@ -5,11 +5,10 @@ import { useProducts } from "@/useProducts";
 import { useEffect } from "react";
 
 const ProductGallery = () => {
-    const { fetchNextPage, data, hasNextPage, isFetchingNextPage, isLoading, ...result } =
+    const { fetchNextPage, data, hasNextPage, isFetchingNextPage, isLoading, isError } =
         useProducts();
 
     const products = data ? data.pages.flatMap((item) => item.products) : [];
-    // const products = data ? data.pages[data.pages.length - 1].products : [];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,7 +32,16 @@ const ProductGallery = () => {
         };
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-    if (isLoading) return <Loader label="Loading Products" />;
+    if (!isError)
+        return (
+            <div className=" flex justify-center items-center h-screen">
+                <div className="bg-error px-10 rounded-md flex items-center justify-center text-white gap-2">
+                    <Loader label="There was an issue loading this page" size="md" />
+                </div>
+            </div>
+        );
+
+    if (isLoading) return <Loader label="Loading Products" size="md" />;
 
     return (
         <div className="flex flex-col">
@@ -44,7 +52,7 @@ const ProductGallery = () => {
                     </div>
                 ))}
             </div>
-            {isFetchingNextPage && <Loader label="Loading More" spinner={false} />}
+            {isFetchingNextPage && <Loader label="Loading More" />}
         </div>
     );
 };

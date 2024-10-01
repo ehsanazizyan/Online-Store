@@ -32,7 +32,7 @@ const ProductGallery = () => {
         };
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-    if (!isError)
+    if (isError)
         return (
             <div className=" flex justify-center items-center h-screen">
                 <div className="bg-error px-10 rounded-md flex items-center justify-center text-white gap-2">

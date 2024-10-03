@@ -25,8 +25,8 @@ const PhotoGallery = ({ imgs }) => {
 
     const handleTouchEnd = (e) => {
         const touchEndX = e.changedTouches[0].clientX;
-        const touchDifference = touchStartXRef.current - touchEndX;
         // If the difference is positive, the user swiped left, if negative, the user swiped right
+        const touchDifference = touchStartXRef.current - touchEndX;
         if (touchDifference > 50) {
             handleNextClick(); // Go to the next image
         } else if (touchDifference < -50) {

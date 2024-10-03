@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-const fetchProducts = async (skipCount = 10) => {
-    const response = await fetch(`https://dummyjson.com/products?limit=10&skip=${skipCount}`);
+const fetchProducts = async (pageParam = 0) => {
+    const response = await fetch(`https://dummyjson.com/products?limit=10&skip=${pageParam}`);
     if (!response.ok) {
         throw new Error("Network response was not ok");
     }
@@ -13,12 +13,12 @@ const fetchProducts = async (skipCount = 10) => {
 export const useProducts = () => {
     return useInfiniteQuery({
         queryKey: ["products"],
-        queryFn: ({ skipCount }) => fetchProducts(skipCount),
-
+        queryFn: ({ pageParam }) => fetchProducts(pageParam),
+        initialPageParam: 0,
         getNextPageParam: (lastPage, allProduct) => {
             const { skip, limit, total } = lastPage;
             if (skip + limit < total) {
-                return skip + limit;
+                return skip + limit; // The value of pageParam is determined by what is specified and returned in getNextPageParam
             } else {
                 return undefined;
             }

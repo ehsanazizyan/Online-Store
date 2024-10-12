@@ -3,7 +3,6 @@ import Link from "next/link";
 
 const ProductCard = ({
     category,
-    images,
     price,
     id,
     stock,
@@ -14,10 +13,7 @@ const ProductCard = ({
 }) => {
     return (
         <Link href={`/products/${id}`}>
-            <div
-                className="bg-base-100 shadow-xl flex md:flex-col items-center w-96 font-semibold"
-                // onClick={() => console.log(id)}
-            >
+            <div className="bg-base-100 shadow-xl flex md:flex-col items-center w-full md:w-80 font-semibold">
                 <div className="card-body w-full md:order-1 space-y-3 ">
                     <h2 className="card-title text-sm md:text-base">{title}</h2>
 

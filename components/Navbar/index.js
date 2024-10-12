@@ -7,9 +7,71 @@ import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
 
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
+
 const Navbar = () => {
     const router = useRouter();
     const { asPath } = router;
+
+    const [search, setSearch] = useState("");
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+    const debouncedSearch = useDebounce(search, 500);
+
+    // Conditionally triggering the search request based on the debounced input and the current path:
+    // 1. If `debouncedSearch` has a value and we are on the `/products` page (`asPath === "/products"`),
+    //    the search query will be sent to fetch the search results.
+    // 2. This prevents unnecessary requests to the server when typing in other routes,
+    //    ensuring that the search functionality is only active on the products page.
+    // 3. Additionally, debounce (with a 1-second delay) is used to avoid making server requests
+    //    on every keystroke, only sending the request when the user pauses typing.
+
+    const {
+        data: searchResults,
+        isError,
+        isLoading,
+    } = useSearch(debouncedSearch && asPath === "/products" ? debouncedSearch : "");
+
+    const { setProducts, setMessage, setSearchStore } = useSearchStore();
+    useEffect(() => {
+        if (debouncedSearch) {
+            setSearchStore(search);
+            if (searchResults?.products?.length > 0) {
+                setProducts(searchResults.products);
+                setMessage("");
+            } else if (searchResults?.products?.length === 0) {
+                setMessage({
+                    type: "warning",
+                    message: "No products were found with this search",
+                });
+            }
+        } else {
+            setMessage("");
+            setProducts([]);
+            setSearchStore(search);
+        }
+
+        if (isError) {
+            setMessage({
+                type: "error",
+                message:
+                    "An error occurred while fetching the data. Please try again later or check your internet connection",
+            });
+        }
+    }, [searchResults, debouncedSearch]);
 
     return (
         <div className="navbar bg-base-100">
@@ -21,7 +83,7 @@ const Navbar = () => {
                 </Link>
             </div>
             <>
-                {/* <div className={`flex items-center gap-1 ${asPath === "/cart" ? "hidden" : ""}`}>
+                <div className="flex items-center gap-1 ">
                     {isLoading && <span className="loading loading-spinner text-primary"></span>}
                     <input
                         value={search}
@@ -36,7 +98,7 @@ const Navbar = () => {
                         onClick={() => setOpenSearchInput(!openSearchInput)}
                         className="size-5 cursor-pointer md:size-6"
                     />
-                </div> */}
+                </div>
 
                 <div className={`md:hidden ${asPath === "/products" ? "block" : "hidden"}`}>
                     <ul className="menu menu-horizontal px-1">

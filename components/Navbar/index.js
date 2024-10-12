@@ -1,10 +1,59 @@
+import CategoryList from "@/Pages/CategoryList";
+import useSearchStore from "@/searchStore";
+import { useSearch } from "@/useSearch";
+import { ChartBarStacked, House, Search } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { useEffect, useState } from "react";
+
 const Navbar = () => {
+    const router = useRouter();
+    const { asPath } = router;
+
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <Link href="/products" className="btn btn-ghost text-base md:text-xl ">
+                    <button className="tooltip tooltip-right tooltip-primary" data-tip="Go to Home">
+                        <House className="size-5 md:size-6" />
+                    </button>
+                </Link>
             </div>
-            <div className="flex-none">
+            <>
+                {/* <div className={`flex items-center gap-1 ${asPath === "/cart" ? "hidden" : ""}`}>
+                    {isLoading && <span className="loading loading-spinner text-primary"></span>}
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        type="text"
+                        placeholder="Search"
+                        className={`w-full h-9 md:h-12 md:w-60 input input-bordered transition-opacity duration-700 ${
+                            openSearchInput ? "opacity-100 visible" : "opacity-0 invisible"
+                        } `}
+                    />
+                    <Search
+                        onClick={() => setOpenSearchInput(!openSearchInput)}
+                        className="size-5 cursor-pointer md:size-6"
+                    />
+                </div> */}
+
+                <div className={`md:hidden ${asPath === "/products" ? "block" : "hidden"}`}>
+                    <ul className="menu menu-horizontal px-1">
+                        <li>
+                            <details>
+                                <summary>
+                                    <ChartBarStacked className="size-5 cursor-pointer " />
+                                </summary>
+                                <ul className="overflow-y-scroll h-screen">
+                                    <li>
+                                        <CategoryList isMobileView={true} />
+                                    </li>
+                                </ul>
+                            </details>
+                        </li>
+                    </ul>
+                </div>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                         <div className="indicator">
@@ -31,38 +80,14 @@ const Navbar = () => {
                             <span className="text-lg font-bold">8 Items</span>
                             <span className="text-info">Subtotal: $999</span>
                             <div className="card-actions">
-                                <button className="btn btn-primary btn-block">View cart</button>
+                                <Link href="/cart" className="btn btn-primary btn-block">
+                                    View cart
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                            />
-                        </div>
-                    </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li>
-                            <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>Settings</a>
-                        </li>
-                        <li>
-                            <a>Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            </>
         </div>
     );
 };

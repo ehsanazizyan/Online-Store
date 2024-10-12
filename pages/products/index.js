@@ -1,32 +1,18 @@
-import Navbar from "@/Navbar";
+import CategoryList from "@/Pages/CategoryList";
 import ProductGallery from "@/Pages/ProductGallery";
-import { useEffect, useState } from "react";
 
 const Products = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-    useEffect(() => {
-        const handleScroll = () => {
-            const { scrollTop } = document.documentElement;
-            setIsScrolled(scrollTop > 0);
-        };
-
-        if (typeof window !== "undefined") {
-            window.addEventListener("scroll", handleScroll);
-            handleScroll();
-        }
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
     return (
-        <>
-            <div className={`top-0 z-50 w-full mb-4 ${isScrolled ? "fixed" : ""}`}>
-                <Navbar />
+        <div className="flex flex-col h-screen overflow-hidden">
+            <div className=" grid grid-cols-12">
+                <div className=" col-span-2 md:block hidden h-screen overflow-y-scroll">
+                    <CategoryList />
+                </div>
+                <div className="col-span-12 md:col-span-10 h-screen overflow-y-scroll">
+                    <ProductGallery />
+                </div>
             </div>
-
-            <ProductGallery />
-        </>
+        </div>
     );
 };
 

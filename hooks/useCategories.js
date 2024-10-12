@@ -11,7 +11,7 @@ const fetchCategories = async () => {
 
 export const useCategories = () => {
     return useQuery({
-        queryKey: ["products"],
+        queryKey: ["category-list"],
         queryFn: fetchCategories,
         staleTime: 60000, // 1 minute
         cacheTime: 120000, // 2 minute

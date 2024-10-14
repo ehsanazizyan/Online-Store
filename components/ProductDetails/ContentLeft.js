@@ -1,7 +1,9 @@
+import ActionBtn from "@/ActionBtn";
 import Button from "@/Button";
 import { ShieldCheck } from "lucide-react";
 
-const ContentLeft = ({ price, discountPercentage, shippingInformation, stock, brand, rating }) => {
+const ContentLeft = ({ product }) => {
+    const { price, discountPercentage, shippingInformation, stock, brand, rating, id } = product;
     const getOriginalPrice = () => {
         if (!discountPercentage) return "";
 
@@ -47,12 +49,7 @@ const ContentLeft = ({ price, discountPercentage, shippingInformation, stock, br
                         <ShieldCheck className="size-6" />
                     </span>
                 </div>
-                <Button
-                    label="Add to Cart"
-                    size="small"
-                    fullWidth={true}
-                    className="bg-red-500 text-white hover:bg-red-600"
-                />
+                <ActionBtn product={product} id={id} />
             </>
             <span className="divider"></span>
             {shippingInformation && <span className="">{shippingInformation} </span>}

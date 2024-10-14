@@ -20,7 +20,7 @@ const ProductDetails = ({ product }) => {
             </div>
             <div className="flex flex-col grid-cols-12 gap-4 md:grid">
                 <div className="col-span-4 ">
-                    <ContentLeft {...product} />
+                    <ContentLeft product={product} />
                 </div>
                 <div className="col-span-4">
                     <ContentCenter {...product} />

@@ -72,7 +72,7 @@ const ProductGallery = () => {
                 <div className="flex flex-wrap items-center gap-4 justify-center">
                     {finalProductList?.map((item, index) => (
                         <div key={index}>
-                            <ProductCard {...item} />
+                            <ProductCard {...item} product={item} />
                         </div>
                     ))}
                 </div>

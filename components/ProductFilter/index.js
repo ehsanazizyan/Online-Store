@@ -163,7 +163,7 @@ const ProductFilter = ({ products, brand, setBrand, price, setPrice, weight, set
                         </div>
                         <ul
                             tabIndex={0}
-                            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow font-semibold space-y-4 mt-4">
+                            className="dropdown-content menu bg-base-300 md:bg-base-100 rounded-box z-[1] w-full p-2 shadow font-semibold space-y-4 mt-4">
                             {uniqueBrand.map((item, index) => (
                                 <li key={index}>
                                     <div className="flex items-center justify-between gap-2">

@@ -40,7 +40,7 @@ const ProductCard = ({
                             )}
                         </div>
 
-                        {stock <= 5 && (
+                        {stock > 0 && stock <= 5 && (
                             <span className="text-red-500 text-sm block md:hidden">
                                 Only {stock} of this product left
                             </span>

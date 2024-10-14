@@ -58,7 +58,7 @@ const CategoryName = () => {
     }
     return (
         <div className="flex flex-col gap-4 md:grid md:grid-cols-12">
-            <div className="md:col-span-3 bg-base-100 md:h-screen">
+            <div className="md:col-span-3 bg-base-300 md:bg-base-100 md:h-screen sticky top-0 z-50">
                 <ProductFilter
                     products={products}
                     brand={brand}
@@ -76,7 +76,7 @@ const CategoryName = () => {
                     )}
                     {finalProducts().map((item) => (
                         <div key={item.id}>
-                            <ProductCard {...item} />
+                            <ProductCard {...item} product={item} />
                         </div>
                     ))}
                 </div>
